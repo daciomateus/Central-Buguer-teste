@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin | Central Burguer</title>
+  <link rel="stylesheet" href="./style/style.css" />
+</head>
+<body>
+  <div class="page-shell admin-page">
+    <main class="admin-layout">
+      <section class="checkout-main admin-login-card" id="login-card">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Area admin</span>
+            <h1>Entrar</h1>
+          </div>
+          <p>Use o acesso administrativo para cadastrar ou remover produtos do cardapio.</p>
+        </div>
+
+        <form class="checkout-form" id="login-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Usuario</span>
+              <input type="text" name="user" placeholder="admin" required />
+            </label>
+            <label class="form-field">
+              <span>Senha</span>
+              <input type="password" name="password" placeholder="123456" required />
+            </label>
+          </div>
+          <p class="admin-hint">Acesso inicial: usuario <strong>admin</strong> e senha <strong>123456</strong>.</p>
+          <p class="form-message" id="login-message"></p>
+          <div class="checkout-actions">
+            <a class="secondary-button" href="./index.html">Voltar ao app</a>
+            <button class="checkout-button" type="submit">Entrar no painel</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="checkout-main admin-panel hidden" id="admin-panel">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Painel</span>
+            <h1>Gerenciar cardapio</h1>
+          </div>
+          <p>Cadastre novos produtos e remova itens que nao devem mais aparecer no pedido.</p>
+        </div>
+
+        <form class="checkout-form" id="product-form">
+          <div class="form-grid">
+            <label class="form-field">
+              <span>Nome do produto</span>
+              <input type="text" name="name" placeholder="Ex: Burguer Costela" required />
+            </label>
+            <label class="form-field">
+              <span>Categoria</span>
+              <select name="category" required>
+                <option value="hamburguer">Hamburguer</option>
+                <option value="combos">Combos</option>
+                <option value="bebidas">Bebidas</option>
+                <option value="pizzas">Pizzas</option>
+              </select>
+            </label>
+            <label class="form-field form-field--full">
+              <span>Descricao</span>
+              <input type="text" name="description" placeholder="Ingredientes e detalhes do produto" required />
+            </label>
+            <label class="form-field">
+              <span>Preco</span>
+              <input type="number" name="price" step="0.01" min="0" placeholder="29.90" required />
+            </label>
+            <label class="form-field">
+              <span>Selo</span>
+              <input type="text" name="badge" placeholder="Novo, Mais pedido, Especial" required />
+            </label>
+            <label class="form-field form-field--full">
+              <span>Imagem</span>
+              <select name="image" required>
+                <option value="./assets/hamb-1.png">Hamburguer 1</option>
+                <option value="./assets/hamb-2.png">Hamburguer 2</option>
+                <option value="./assets/hamb-3.png">Hamburguer 3</option>
+                <option value="./assets/hamb-4.png">Combo 1</option>
+                <option value="./assets/hamb-5.png">Combo 2</option>
+                <option value="./assets/hamb-6.png">Combo 3</option>
+                <option value="./assets/hamb-7.png">Pizza 1</option>
+                <option value="./assets/hamb-8.png">Pizza 2</option>
+                <option value="./assets/refri-1.png">Bebida 1</option>
+                <option value="./assets/refri-2.png">Bebida 2</option>
+              </select>
+            </label>
+          </div>
+          <p class="form-message" id="product-message"></p>
+          <div class="checkout-actions">
+            <button class="secondary-button" id="logout-button" type="button">Sair</button>
+            <button class="checkout-button" type="submit">Cadastrar produto</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="cart-panel admin-panel hidden" id="catalog-panel">
+        <div class="cart-panel__header">
+          <div>
+            <span class="eyebrow">Produtos</span>
+            <h2>Itens cadastrados</h2>
+          </div>
+          <span class="cart-badge" id="product-count">0 itens</span>
+        </div>
+        <div class="cart-items" id="admin-products"></div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="./menu-data.js"></script>
+  <script src="./admin.js"></script>
+</body>
+</html>
