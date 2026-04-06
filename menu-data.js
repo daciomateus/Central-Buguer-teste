@@ -14,7 +14,7 @@ window.CentralBurguerData = (() => {
         description: 'Burger de 150g, queijo cheddar, bacon crocante e maionese da casa.',
         price: 24.9,
         badge: 'Mais pedido',
-        image: './assets/hamb-1.png'
+        image: 'assets/hamb-1.png'
       },
       {
         id: 'hamb-salada',
@@ -22,7 +22,7 @@ window.CentralBurguerData = (() => {
         description: 'Hamburguer artesanal, alface, tomate, queijo prato e molho especial.',
         price: 22.5,
         badge: 'Classico',
-        image: './assets/hamb-2.png'
+        image: 'assets/hamb-2.png'
       },
       {
         id: 'hamb-duplo',
@@ -30,7 +30,7 @@ window.CentralBurguerData = (() => {
         description: 'Dois burgers, cebola caramelizada, cheddar cremoso e pao brioche.',
         price: 29.9,
         badge: 'Reforcado',
-        image: './assets/hamb-3.png'
+        image: 'assets/hamb-3.png'
       }
     ],
     combos: [
@@ -40,7 +40,7 @@ window.CentralBurguerData = (() => {
         description: 'Smash burger, fritas media e refrigerante lata.',
         price: 34.9,
         badge: 'Completo',
-        image: './assets/hamb-4.png'
+        image: 'assets/hamb-4.png'
       },
       {
         id: 'combo-duplo',
@@ -48,7 +48,7 @@ window.CentralBurguerData = (() => {
         description: 'Duplo burguer, onion rings e bebida 600ml.',
         price: 42.9,
         badge: 'Fome grande',
-        image: './assets/hamb-5.png'
+        image: 'assets/hamb-5.png'
       },
       {
         id: 'combo-familia',
@@ -56,7 +56,7 @@ window.CentralBurguerData = (() => {
         description: '2 hamburgueres, 1 porcao grande de fritas e 2 refrigerantes.',
         price: 69.9,
         badge: 'Compartilhar',
-        image: './assets/hamb-6.png'
+        image: 'assets/hamb-6.png'
       }
     ],
     bebidas: [
@@ -66,7 +66,7 @@ window.CentralBurguerData = (() => {
         description: 'Lata 350ml bem gelada para acompanhar seu lanche.',
         price: 7.5,
         badge: '350ml',
-        image: './assets/refri-1.png'
+        image: 'assets/refri-1.png'
       },
       {
         id: 'bebida-guarana',
@@ -74,7 +74,7 @@ window.CentralBurguerData = (() => {
         description: 'Sabor nacional, lata 350ml servida gelada.',
         price: 7,
         badge: 'Gelado',
-        image: './assets/refri-2.png'
+        image: 'assets/refri-2.png'
       },
       {
         id: 'bebida-suco',
@@ -82,7 +82,7 @@ window.CentralBurguerData = (() => {
         description: 'Copo de 400ml nos sabores laranja, maracuja ou limao.',
         price: 9.9,
         badge: 'Natural',
-        image: './assets/refri-1.png'
+        image: 'assets/refri-1.png'
       }
     ],
     pizzas: [
@@ -92,7 +92,7 @@ window.CentralBurguerData = (() => {
         description: 'Molho artesanal, mussarela, calabresa fatiada e cebola roxa.',
         price: 49.9,
         badge: '8 fatias',
-        image: './assets/hamb-7.png'
+        image: 'assets/hamb-7.png'
       },
       {
         id: 'pizza-frango',
@@ -100,7 +100,7 @@ window.CentralBurguerData = (() => {
         description: 'Frango temperado, catupiry cremoso e toque de oregano.',
         price: 52.9,
         badge: 'Cremosa',
-        image: './assets/hamb-8.png'
+        image: 'assets/hamb-8.png'
       },
       {
         id: 'pizza-marguerita',
@@ -108,7 +108,7 @@ window.CentralBurguerData = (() => {
         description: 'Mussarela, tomate fresco, manjericao e azeite especial.',
         price: 47.9,
         badge: 'Leve',
-        image: './assets/hamb-3.png'
+        image: 'assets/hamb-3.png'
       }
     ]
   };
@@ -215,3 +215,7 @@ window.CentralBurguerData = (() => {
     adminCredentials
   };
 })();
+
+
+
+

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Central Burguer</title>
-  <link rel="stylesheet" href="./style/style.css" />
+  <link rel="stylesheet" href="style/style.css" />
 </head>
 <body>
   <div class="page-shell">
@@ -12,26 +12,45 @@
       <div class="hero__overlay"></div>
       <div class="hero__content">
         <div class="hero__copy">
+          <div class="brand-badge brand-badge--hero" aria-label="Logo Central Burguer">
+            <div class="brand-badge__mark">
+              <span>Central</span>
+              <strong>Burguer</strong>
+            </div>
+            <div class="brand-badge__meta">
+              <span class="tag">Pedidos online</span>
+              <p>Experiencia inspirada nos apps de delivery, com pedido rapido e envio no WhatsApp.</p>
+            </div>
+          </div>
           <span class="tag">Pedidos online</span>
           <h1>Central Burguer</h1>
-          <p>Monte seu pedido em poucos toques com cardapio organizado, combos irresistiveis e carrinho atualizado em tempo real.</p>
+          <p>Escolha seus lanches, acompanhe o carrinho em tempo real e finalize com nome, endereco, entrega ou retirada e forma de pagamento.</p>
           <div class="hero__meta">
             <div>
               <strong>Entrega rapida</strong>
-              <span>Hamburgueres, pizzas, bebidas e combos</span>
+              <span>Hamburgueres, pizzas, bebidas e combos em um fluxo simples</span>
             </div>
             <div>
               <strong>Aberto hoje</strong>
               <span>18h as 00h</span>
             </div>
+            <div>
+              <strong>Pague do seu jeito</strong>
+              <span>Pix, cartao ou dinheiro com campo de troco</span>
+            </div>
           </div>
         </div>
         <div class="hero__card">
-          <p class="hero__card-label">Mais pedido</p>
-          <img src="./assets/hamb-1.png" alt="Hamburguer artesanal" class="hero__image" />
+          <p class="hero__card-label">Pedido em destaque</p>
+          <img src="assets/hamb-1.png" alt="Hamburguer artesanal" class="hero__image" />
           <h2>Combo Smash da Casa</h2>
           <p>Pao brioche, burger artesanal, fritas crocantes e refrigerante gelado.</p>
           <span class="hero__price">R$ 34,90</span>
+          <ul class="hero__steps" aria-label="Etapas do pedido">
+            <li>1. Escolha os itens</li>
+            <li>2. Revise no carrinho</li>
+            <li>3. Envie o pedido para o WhatsApp</li>
+          </ul>
         </div>
       </div>
     </header>
@@ -48,7 +67,7 @@
 
         <div class="menu-toolbar">
           <nav class="category-tabs" id="category-tabs" aria-label="Categorias do cardapio"></nav>
-          <a class="secondary-button" href="./admin.html">Area admin</a>
+          <a class="secondary-button" href="admin.html">Area admin</a>
         </div>
         <div class="menu-grid" id="menu-grid"></div>
       </section>
@@ -60,6 +79,11 @@
             <h2>Seu pedido</h2>
           </div>
           <span class="cart-badge" id="cart-count">0 itens</span>
+        </div>
+
+        <div class="cart-flow-note">
+          <strong>Fluxo da entrega</strong>
+          <p>No proximo passo, o cliente escolhe se quer entrega ou retirada, informa pagamento e o pedido vai pronto para o WhatsApp.</p>
         </div>
 
         <div class="cart-items" id="cart-items">
@@ -88,7 +112,13 @@
     </main>
   </div>
 
-  <script src="./menu-data.js"></script>
-  <script src="./app.js"></script>
+  <script src="menu-data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
+
+

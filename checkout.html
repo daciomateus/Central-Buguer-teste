@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Finalizar pedido | Central Burguer</title>
-  <link rel="stylesheet" href="./style/style.css" />
+  <link rel="stylesheet" href="style/style.css" />
 </head>
 <body>
   <div class="page-shell checkout-page">
@@ -12,14 +12,35 @@
       <section class="checkout-main">
         <div class="section-heading">
           <div>
+            <div class="brand-badge brand-badge--checkout" aria-label="Logo Central Burguer">
+              <div class="brand-badge__mark">
+                <span>Central</span>
+                <strong>Burguer</strong>
+              </div>
+            </div>
             <span class="eyebrow">Checkout</span>
             <h1>Fechar pedido</h1>
           </div>
-          <p>Preencha os dados abaixo para gerar um recibo completo e enviar direto para o WhatsApp da hamburgueria.</p>
+          <p>Preencha os dados para gerar um pedido completo no estilo delivery: escolha entrega ou retirada, forma de pagamento e envie tudo para o WhatsApp da hamburgueria.</p>
         </div>
 
         <form class="checkout-form" id="checkout-form">
           <div class="form-grid">
+            <div class="form-field form-field--full">
+              <span>Como voce quer receber?</span>
+              <div class="choice-grid" id="service-type">
+                <label class="choice-card choice-card--active">
+                  <input type="radio" name="serviceType" value="Entrega" checked />
+                  <strong>Entrega</strong>
+                  <small>Receber no endereco informado</small>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="serviceType" value="Retirada" />
+                  <strong>Retirada</strong>
+                  <small>Buscar na hamburgueria</small>
+                </label>
+              </div>
+            </div>
             <label class="form-field">
               <span>Nome</span>
               <input type="text" id="customer-name" name="name" placeholder="Seu nome" required />
@@ -28,7 +49,7 @@
               <span>Telefone</span>
               <input type="tel" id="customer-phone" name="phone" placeholder="(00) 00000-0000" required />
             </label>
-            <label class="form-field form-field--full">
+            <label class="form-field form-field--full" id="address-field">
               <span>Endereco</span>
               <input type="text" id="customer-address" name="address" placeholder="Rua, numero, bairro e referencia" required />
             </label>
@@ -58,7 +79,7 @@
           <p class="form-message" id="checkout-message"></p>
 
           <div class="checkout-actions">
-            <a class="secondary-button" href="./index.html">Voltar ao cardapio</a>
+            <a class="secondary-button" href="index.html">Voltar ao cardapio</a>
             <button class="checkout-button" id="send-whatsapp" type="submit">Enviar pedido no WhatsApp</button>
           </div>
         </form>
@@ -77,6 +98,10 @@
 
         <div class="cart-summary">
           <div class="summary-row">
+            <span>Atendimento</span>
+            <strong id="checkout-service">Entrega</strong>
+          </div>
+          <div class="summary-row">
             <span>Subtotal</span>
             <strong id="checkout-subtotal">R$ 0,00</strong>
           </div>
@@ -93,6 +118,11 @@
     </main>
   </div>
 
-  <script src="./checkout.js"></script>
+  <script src="checkout.js"></script>
 </body>
 </html>
+
+
+
+
+
