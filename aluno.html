@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arena ABS | Area do Aluno</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="checkout-body">
+  <main class="checkout-shell">
+    <section class="checkout-card student-shell">
+      <div class="checkout-header">
+        <div>
+          <span class="eyebrow eyebrow--light">Area do aluno</span>
+          <h1>Minha area</h1>
+          <p>Esse e o painel do aluno depois do login. Aqui ele acompanha cadastro, reservas, cancelamentos e mensalidades.</p>
+        </div>
+        <div class="support-actions">
+          <a class="ghost-button" href="./index.html">Home</a>
+          <a class="ghost-button" href="./login.html">Trocar login</a>
+          <button id="student-logout" class="ghost-button" type="button">Sair</button>
+        </div>
+      </div>
+
+      <div class="access-grid student-grid">
+        <article class="access-card access-card--highlight">
+          <span class="access-card__eyebrow">Perfil do aluno</span>
+          <strong id="student-email">Aluno conectado</strong>
+          <p id="student-profile-copy">Esse painel mostra os dados vinculados ao seu cadastro.</p>
+        </article>
+
+        <article class="access-card">
+          <span class="access-card__eyebrow">Mensalidade atual</span>
+          <strong id="student-monthly-status">Carregando...</strong>
+          <p id="student-monthly-copy">Assim que carregar, voce vai ver vencimento, valor e status do seu plano.</p>
+        </article>
+
+        <article class="access-card">
+          <span class="access-card__eyebrow">Reservas</span>
+          <strong id="student-reservation-status">Carregando...</strong>
+          <p id="student-reservation-copy">Suas reservas aparecem logo abaixo, com cancelamento apenas da sua propria conta.</p>
+        </article>
+      </div>
+
+      <section class="support-card auth-support">
+        <div class="checkout-header checkout-header--compact">
+          <div>
+            <span class="eyebrow eyebrow--light">Minhas reservas</span>
+            <h2 class="checkout-subtitle">Horarios reservados</h2>
+          </div>
+        </div>
+        <div id="student-reservation-list" class="checkout-selection-list"></div>
+      </section>
+
+      <section class="support-card auth-support">
+        <div class="checkout-header checkout-header--compact">
+          <div>
+            <span class="eyebrow eyebrow--light">Minhas mensalidades</span>
+            <h2 class="checkout-subtitle">Cobrancas do aluno</h2>
+          </div>
+        </div>
+        <div id="student-monthly-list" class="checkout-selection-list"></div>
+      </section>
+
+      <p id="student-message" class="form-message"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./student.js"></script>
+</body>
+</html>

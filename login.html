@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arena ABS | Entrada do Aluno</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="checkout-body">
+  <main class="checkout-shell">
+    <section class="checkout-card auth-card">
+      <div class="checkout-header">
+        <div>
+          <span class="eyebrow eyebrow--light">Entrada do aluno</span>
+          <h1>Entrar ou criar conta</h1>
+          <p>Essa pagina e apenas a porta de entrada. Depois do login, o aluno segue para a propria area, onde ve mensalidades e dados pessoais.</p>
+        </div>
+        <div class="support-actions">
+          <a class="ghost-button" href="./index.html">Voltar para home</a>
+          <a class="ghost-button" href="./aluno.html">Ir para area do aluno</a>
+        </div>
+      </div>
+
+      <div class="checkout-layout auth-layout">
+        <section class="support-card">
+          <h2 class="checkout-subtitle">Ja sou aluno</h2>
+          <p class="support-copy">Use seu e-mail e senha para entrar na sua area.</p>
+          <form id="login-form" class="checkout-form">
+            <label class="form-field">
+              <span>E-mail</span>
+              <input type="email" id="login-email" required />
+            </label>
+            <label class="form-field">
+              <span>Senha</span>
+              <input type="password" id="login-password" required />
+            </label>
+            <button class="primary-button" type="submit">Entrar na area do aluno</button>
+          </form>
+        </section>
+
+        <section class="support-card">
+          <h2 class="checkout-subtitle">Primeiro acesso</h2>
+          <p class="support-copy">Crie sua conta de aluno para usar mensalidade, area pessoal e recursos futuros.</p>
+          <form id="register-form" class="checkout-form">
+            <label class="form-field">
+              <span>Nome</span>
+              <input type="text" id="register-name" required />
+            </label>
+            <label class="form-field">
+              <span>Telefone</span>
+              <input type="tel" id="register-phone" required />
+            </label>
+            <label class="form-field">
+              <span>E-mail</span>
+              <input type="email" id="register-email" required />
+            </label>
+            <label class="form-field">
+              <span>Senha</span>
+              <input type="password" id="register-password" minlength="6" required />
+            </label>
+            <button class="ghost-button auth-submit" type="submit">Criar conta de aluno</button>
+          </form>
+        </section>
+      </div>
+
+      <div class="support-card auth-support">
+        <span class="eyebrow eyebrow--light">Importante</span>
+        <p class="support-copy">`Entrada do aluno` e diferente de `Area do aluno`: aqui o aluno entra; na outra pagina ele acompanha cadastro, mensalidades e proximas funcoes.</p>
+      </div>
+
+      <p id="auth-message" class="form-message"></p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./login.js"></script>
+</body>
+</html>

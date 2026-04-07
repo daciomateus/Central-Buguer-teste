@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arena ABS | Cancelar Reserva</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="checkout-body">
+  <main class="checkout-shell">
+    <section class="checkout-card">
+      <div class="checkout-header">
+        <div>
+          <span class="eyebrow eyebrow--light">Cancelamento</span>
+          <h1>Cancelar minha reserva</h1>
+          <p>Entre com o contato usado na reserva para cancelar apenas os seus horarios.</p>
+        </div>
+        <a class="ghost-button" href="./index.html">Voltar para agenda</a>
+      </div>
+
+      <div class="checkout-layout checkout-layout--stacked">
+        <section>
+          <h2 class="checkout-subtitle">Verificacao</h2>
+          <form id="cancel-lookup-form" class="checkout-form">
+            <label class="form-field">
+              <span>Contato usado na reserva</span>
+              <input type="tel" id="cancel-phone" required />
+            </label>
+            <button class="primary-button" type="submit">Buscar minha reserva</button>
+          </form>
+          <p id="cancel-message" class="form-message"></p>
+        </section>
+
+        <section id="cancel-results" class="hidden">
+          <h2 class="checkout-subtitle">Horarios encontrados</h2>
+          <div id="cancel-selection-list" class="checkout-selection-list"></div>
+          <div class="support-actions">
+            <button id="cancel-reservation-button" class="danger-button" type="button">Cancelar minha reserva</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase-config.js"></script>
+  <script src="./cancel.js"></script>
+</body>
+</html>

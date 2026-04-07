@@ -1,208 +1,204 @@
-const storageKey = 'central-burguer-cart';
-const deliveryFee = 6;
-const whatsappNumber = '5591982926051';
+const pendingSelectionKey = 'arena-abs-pending-selection';
+const bookingsTable = 'reservas';
+const adminWhatsappNumber = '5591982926051';
 
+const checkoutSelectionList = document.querySelector('#checkout-selection-list');
+const checkoutTotal = document.querySelector('#checkout-total');
 const checkoutForm = document.querySelector('#checkout-form');
-const checkoutItems = document.querySelector('#checkout-items');
-const checkoutCount = document.querySelector('#checkout-count');
-const checkoutService = document.querySelector('#checkout-service');
-const subtotalEl = document.querySelector('#checkout-subtotal');
-const deliveryEl = document.querySelector('#checkout-delivery');
-const totalEl = document.querySelector('#checkout-total');
-const paymentMethodEl = document.querySelector('#payment-method');
-const serviceTypeInputs = document.querySelectorAll('input[name="serviceType"]');
-const addressField = document.querySelector('#address-field');
-const addressEl = document.querySelector('#customer-address');
-const changeField = document.querySelector('#change-field');
-const changeValueEl = document.querySelector('#change-value');
 const checkoutMessage = document.querySelector('#checkout-message');
-const checkoutMobileTotal = document.querySelector('#checkout-mobile-total');
-const checkoutMobileSubmit = document.querySelector('#checkout-mobile-submit');
+const checkoutSuccess = document.querySelector('#checkout-success');
+const openWhatsappButton = document.querySelector('#open-whatsapp-button');
+const checkoutStudentName = document.querySelector('#checkout-student-name');
+const checkoutStudentMeta = document.querySelector('#checkout-student-meta');
 
-let currentCart = [];
-let currentSubtotal = 0;
-let currentDeliveryFee = deliveryFee;
-let currentTotal = deliveryFee;
+let currentSession = null;
+let currentStudent = null;
 
-function formatPrice(value) {
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  });
-}
-
-function loadCart() {
+function loadPendingSelections() {
   try {
-    const storedCart = localStorage.getItem(storageKey);
-    return storedCart ? JSON.parse(storedCart) : [];
+    return JSON.parse(localStorage.getItem(pendingSelectionKey)) || [];
   } catch {
     return [];
   }
 }
 
-function toggleChangeField() {
-  const showChange = paymentMethodEl.value === 'Dinheiro';
-  changeField.classList.toggle('hidden', !showChange);
-  changeValueEl.required = showChange;
-
-  if (!showChange) {
-    changeValueEl.value = '';
-  }
+function clearPendingSelections() {
+  localStorage.removeItem(pendingSelectionKey);
 }
 
-function getSelectedServiceType() {
-  const selected = Array.from(serviceTypeInputs).find((input) => input.checked);
-  return selected ? selected.value : 'Entrega';
+function formatPrice(price) {
+  return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-function updateServiceTypeUI() {
-  const serviceType = getSelectedServiceType();
-  const isDelivery = serviceType === 'Entrega';
-
-  addressField.classList.toggle('hidden', !isDelivery);
-  addressEl.required = isDelivery;
-
-  if (!isDelivery) {
-    addressEl.value = '';
-  }
-
-  document.querySelectorAll('.choice-card').forEach((card) => {
-    const input = card.querySelector('input');
-    card.classList.toggle('choice-card--active', Boolean(input?.checked));
-  });
-
-  renderCheckout();
+function formatDateLong(date) {
+  return date.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: '2-digit' });
 }
 
-function renderCheckout() {
-  currentCart = loadCart();
-  const serviceType = getSelectedServiceType();
-  currentDeliveryFee = serviceType === 'Retirada' ? 0 : deliveryFee;
-  deliveryEl.textContent = serviceType === 'Retirada' ? 'Gratis' : formatPrice(currentDeliveryFee);
-  checkoutService.textContent = serviceType;
+function buildSlotDate(date, hour) {
+  const slotDate = new Date(date);
+  slotDate.setHours(hour, 0, 0, 0);
+  return slotDate;
+}
 
-  if (!currentCart.length) {
-    checkoutItems.innerHTML = `
-      <div class="empty-cart">
-        <strong>Nenhum item no pedido</strong>
-        <p>Volte ao cardapio para adicionar produtos antes de finalizar.</p>
-      </div>
-    `;
-    checkoutCount.textContent = '0 itens';
-    subtotalEl.textContent = formatPrice(0);
-    totalEl.textContent = formatPrice(currentDeliveryFee);
-    if (checkoutMobileTotal) checkoutMobileTotal.textContent = formatPrice(currentDeliveryFee);
-    currentSubtotal = 0;
-    currentTotal = currentDeliveryFee;
-    return;
+function buildAdminWhatsappMessage(bookings, student) {
+  const lines = bookings
+    .sort((first, second) => new Date(first.datetime).getTime() - new Date(second.datetime).getTime())
+    .map((booking) => `- Quadra ${booking.court} | ${formatDateLong(new Date(booking.datetime))} | ${booking.hour}h | ${formatPrice(booking.price)}`)
+    .join('\n');
+
+  return encodeURIComponent(
+    `Nova reserva - Arena ABS\n\n` +
+    `Aluno: ${student.nome || student.email}\n` +
+    `Contato: ${student.telefone || 'nao informado'}\n` +
+    `E-mail: ${student.email}\n\n` +
+    `Horarios reservados:\n${lines}\n\n` +
+    `Total: ${formatPrice(bookings.reduce((total, booking) => total + booking.price, 0))}`
+  );
+}
+
+function getWhatsappUrl(bookings, student) {
+  return `https://wa.me/${adminWhatsappNumber}?text=${buildAdminWhatsappMessage(bookings, student)}`;
+}
+
+function openWhatsappAfterSave(whatsappUrl) {
+  window.location.href = whatsappUrl;
+}
+
+function serializeBooking(booking) {
+  return {
+    id: booking.id,
+    customer_name: booking.customerName,
+    phone: booking.phone,
+    court: booking.court,
+    hour: booking.hour,
+    price: booking.price,
+    datetime: booking.datetime,
+    aluno_id: booking.alunoId,
+    cancel_token: null
+  };
+}
+
+async function findExistingReservations(ids) {
+  const { data, error } = await window.supabaseClient
+    .from(bookingsTable)
+    .select('id')
+    .in('id', ids);
+
+  if (error) throw error;
+  return data || [];
+}
+
+async function insertReservations(bookings) {
+  const { error } = await window.supabaseClient
+    .from(bookingsTable)
+    .insert(bookings.map(serializeBooking));
+
+  if (error) throw error;
+}
+
+function showSuccessState(whatsappUrl) {
+  checkoutForm.classList.add('hidden');
+  checkoutSuccess.classList.remove('hidden');
+  openWhatsappButton.href = whatsappUrl;
+  checkoutMessage.textContent = 'Reserva salva. Se o WhatsApp nao abrir sozinho, toque no botao abaixo.';
+}
+
+async function loadStudentContext() {
+  const { data, error } = await window.supabaseClient.auth.getSession();
+
+  if (error) {
+    throw error;
   }
 
-  checkoutItems.innerHTML = currentCart
-    .map(
-      (item) => `
-        <article class="cart-item">
-          <img src="${item.image}" alt="${item.name}" />
-          <div class="cart-item__info">
-            <div class="cart-item__title">
-              <div>
-                <h3>${item.name}</h3>
-                <p>${item.categoryLabel}</p>
-              </div>
-              <strong>${formatPrice(item.price * item.quantity)}</strong>
-            </div>
-            <div class="summary-row">
-              <span>Quantidade</span>
-              <strong>${item.quantity}</strong>
-            </div>
-          </div>
-        </article>
-      `
-    )
+  currentSession = data.session;
+
+  if (!currentSession) {
+    window.location.href = './login.html';
+    return false;
+  }
+
+  const { data: student, error: studentError } = await window.supabaseClient
+    .from('alunos')
+    .select('id, nome, telefone, email, status')
+    .eq('id', currentSession.user.id)
+    .single();
+
+  if (studentError) {
+    throw studentError;
+  }
+
+  currentStudent = student;
+  checkoutStudentName.textContent = student.nome || student.email;
+  checkoutStudentMeta.textContent = `Telefone: ${student.telefone || 'nao informado'} | Status: ${student.status || 'ativo'}`;
+  return true;
+}
+
+const pendingSelections = loadPendingSelections();
+
+if (!pendingSelections.length) {
+  checkoutSelectionList.innerHTML = '<div class="checkout-empty">Nenhum horario foi selecionado ainda.</div>';
+  checkoutTotal.textContent = '';
+  checkoutForm.classList.add('hidden');
+} else {
+  checkoutSelectionList.innerHTML = pendingSelections
+    .sort((first, second) => buildSlotDate(first.date, first.hour).getTime() - buildSlotDate(second.date, second.hour).getTime())
+    .map((selection) => `
+      <article class="checkout-selection-item">
+        <strong>Quadra ${selection.court} - ${selection.hour}h</strong>
+        <span>${formatDateLong(new Date(selection.date))}</span>
+        <small>${formatPrice(selection.price)}</small>
+      </article>
+    `)
     .join('');
 
-  const itemCount = currentCart.reduce((total, item) => total + item.quantity, 0);
-  currentSubtotal = currentCart.reduce((total, item) => total + item.price * item.quantity, 0);
-  currentTotal = currentSubtotal + currentDeliveryFee;
-
-  checkoutCount.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`;
-  subtotalEl.textContent = formatPrice(currentSubtotal);
-  totalEl.textContent = formatPrice(currentTotal);
-  if (checkoutMobileTotal) checkoutMobileTotal.textContent = formatPrice(currentTotal);
+  checkoutTotal.textContent = `Total: ${formatPrice(pendingSelections.reduce((total, selection) => total + selection.price, 0))}`;
 }
 
-function buildWhatsappMessage({ name, phone, address, payment, change, notes, serviceType }) {
-  const itemsMessage = currentCart
-    .map((item) => `- ${item.quantity}x ${item.name} (${formatPrice(item.price * item.quantity)})`)
-    .join('%0A');
-
-  const changeLine = payment === 'Dinheiro'
-    ? `%0A*Troco para:* ${formatPrice(Number(change))}`
-    : '';
-
-  const notesLine = notes
-    ? `%0A*Observacoes:* ${encodeURIComponent(notes)}`
-    : '';
-
-  const serviceLine = `%0A*Tipo do pedido:* ${encodeURIComponent(serviceType)}`;
-  const addressLine = serviceType === 'Entrega'
-    ? `%0A*Endereco:* ${encodeURIComponent(address)}`
-    : `%0A*Retirada:* ${encodeURIComponent('Cliente vai buscar na loja')}`;
-
-  return `*Novo pedido - Central Burguer*%0A%0A*Cliente:* ${encodeURIComponent(name)}%0A*Telefone:* ${encodeURIComponent(phone)}${serviceLine}${addressLine}%0A%0A*Itens:*%0A${itemsMessage}%0A%0A*Subtotal:* ${encodeURIComponent(formatPrice(currentSubtotal))}%0A*Entrega:* ${encodeURIComponent(currentDeliveryFee === 0 ? 'Gratis' : formatPrice(currentDeliveryFee))}%0A*Total:* ${encodeURIComponent(formatPrice(currentTotal))}%0A%0A*Pagamento:* ${encodeURIComponent(payment)}${changeLine}${notesLine}`;
-}
-
-checkoutForm.addEventListener('submit', (event) => {
+checkoutForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   checkoutMessage.textContent = '';
 
-  if (!currentCart.length) {
-    checkoutMessage.textContent = 'Seu carrinho esta vazio.';
+  if (!pendingSelections.length) {
+    checkoutMessage.textContent = 'Volte para a agenda e escolha pelo menos um horario.';
     return;
   }
 
-  const name = document.querySelector('#customer-name').value.trim();
-  const phone = document.querySelector('#customer-phone').value.trim();
-  const address = document.querySelector('#customer-address').value.trim();
-  const payment = paymentMethodEl.value;
-  const change = changeValueEl.value.trim();
-  const notes = document.querySelector('#customer-notes').value.trim();
-  const serviceType = getSelectedServiceType();
-
-  if (!name || !phone) {
-    checkoutMessage.textContent = 'Preencha nome e telefone para continuar.';
+  if (!currentSession || !currentStudent) {
+    checkoutMessage.textContent = 'Entre como aluno para confirmar a reserva.';
+    window.location.href = './login.html';
     return;
   }
 
-  if (serviceType === 'Entrega' && !address) {
-    checkoutMessage.textContent = 'Informe o endereco para pedidos com entrega.';
-    return;
+  const newBookings = pendingSelections.map((selection) => ({
+    id: selection.id,
+    customerName: currentStudent.nome || currentStudent.email,
+    phone: currentStudent.telefone || '',
+    court: selection.court,
+    hour: selection.hour,
+    price: selection.price,
+    datetime: buildSlotDate(new Date(selection.date), selection.hour).toISOString(),
+    alunoId: currentSession.user.id
+  }));
+
+  try {
+    const existingReservations = await findExistingReservations(newBookings.map((booking) => booking.id));
+    if (existingReservations.length) {
+      checkoutMessage.textContent = 'Um dos horarios acabou de ser reservado. Volte para a agenda e escolha novamente.';
+      return;
+    }
+
+    const whatsappUrl = getWhatsappUrl(newBookings, currentStudent);
+    await insertReservations(newBookings);
+    clearPendingSelections();
+    showSuccessState(whatsappUrl);
+    openWhatsappAfterSave(whatsappUrl);
+  } catch (error) {
+    console.error('Erro ao salvar reserva no Supabase:', error);
+    checkoutMessage.textContent = 'Nao foi possivel salvar a reserva agora. Tente novamente.';
   }
-
-  if (payment === 'Dinheiro' && (!change || Number(change) < currentTotal)) {
-    checkoutMessage.textContent = 'Informe um valor valido para o troco.';
-    return;
-  }
-
-  const message = buildWhatsappMessage({ name, phone, address, payment, change, notes, serviceType });
-  const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-
-  window.open(whatsappUrl, '_blank');
 });
 
-paymentMethodEl.addEventListener('change', toggleChangeField);
-
-if (checkoutMobileSubmit) {
-  checkoutMobileSubmit.addEventListener('click', () => {
-    checkoutForm.requestSubmit();
-  });
-}
-serviceTypeInputs.forEach((input) => input.addEventListener('change', updateServiceTypeUI));
-
-renderCheckout();
-toggleChangeField();
-updateServiceTypeUI();
-
-
-
-
-
+loadStudentContext().catch((error) => {
+  console.error('Erro ao carregar contexto do aluno no checkout:', error);
+  checkoutMessage.textContent = 'Entre como aluno para continuar.';
+});
