@@ -18,6 +18,8 @@ const checkoutButton = document.querySelector('#checkout-button');
 const mobileCartCount = document.querySelector('#mobile-cart-count');
 const mobileCartTotal = document.querySelector('#mobile-cart-total');
 const mobileCartButton = document.querySelector('#mobile-cart-button');
+const mobileCartToast = document.querySelector('#mobile-cart-toast');
+let mobileToastTimeout;
 
 deliveryEl.textContent = formatPrice(deliveryFee);
 
@@ -51,6 +53,17 @@ function renderCategories() {
     .join('');
 }
 
+function showMobileCartToast(product) {
+  if (!mobileCartToast) return;
+
+  mobileCartToast.textContent = `${product.name} adicionado • ${formatPrice(product.price)}`;
+  mobileCartToast.classList.add('is-visible');
+
+  clearTimeout(mobileToastTimeout);
+  mobileToastTimeout = setTimeout(() => {
+    mobileCartToast.classList.remove('is-visible');
+  }, 1800);
+}
 function renderMenu() {
   const menuData = getMenu();
   const items = menuData[currentCategory] || [];
@@ -58,7 +71,7 @@ function renderMenu() {
   menuGrid.innerHTML = items
     .map(
       (item) => `
-        <article class="product-card">
+        <article class="product-card" data-product-card>
           <img class="product-card__image" src="${item.image}" alt="${item.name}" />
           <div class="product-card__top">
             <div>
@@ -242,6 +255,9 @@ if (mobileCartButton) {
 renderCategories();
 renderMenu();
 renderCart();
+
+
+
 
 
 
