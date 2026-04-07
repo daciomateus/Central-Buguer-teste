@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Finalizar pedido | Central Burguer</title>
-  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page-shell checkout-page">
@@ -24,7 +24,7 @@
           <p>Preencha os dados para gerar um pedido completo no estilo delivery: escolha entrega ou retirada, forma de pagamento e envie tudo para o WhatsApp da hamburgueria.</p>
         </div>
 
-        <form class="checkout-form" id="checkout-form">
+        <form class="checkout-form" id="checkout-form">`r`n          <div class="checkout-mobile-note">`r`n            <strong>Fechamento rapido no celular</strong>`r`n            <p>Preencha os dados e use a barra fixa no fim da tela para enviar o pedido com mais facilidade.</p>`r`n          </div>
           <div class="form-grid">
             <div class="form-field form-field--full">
               <span>Como voce quer receber?</span>
@@ -118,9 +118,21 @@
     </main>
   </div>
 
+
+  <div class="checkout-mobile-bar" id="checkout-mobile-bar">
+    <div class="checkout-mobile-bar__info">
+      <span class="checkout-mobile-bar__label">Total do pedido</span>
+      <strong class="checkout-mobile-bar__total" id="checkout-mobile-total">R$ 6,00</strong>
+    </div>
+    <button class="checkout-mobile-bar__button" id="checkout-mobile-submit" type="button">Enviar no WhatsApp</button>
+  </div>
+
   <script src="checkout.js"></script>
 </body>
 </html>
+
+
+
 
 
 

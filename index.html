@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Central Burguer</title>
-  <link rel="stylesheet" href="style/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="page-shell">
@@ -42,7 +42,7 @@
         </div>
         <div class="hero__card">
           <p class="hero__card-label">Pedido em destaque</p>
-          <img src="assets/hamb-1.png" alt="Hamburguer artesanal" class="hero__image" />
+          <img src="hamb-1.png" alt="Hamburguer artesanal" class="hero__image" />
           <h2>Combo Smash da Casa</h2>
           <p>Pao brioche, burger artesanal, fritas crocantes e refrigerante gelado.</p>
           <span class="hero__price">R$ 34,90</span>
@@ -56,7 +56,7 @@
     </header>
 
     <main class="layout">
-      <section class="menu-panel">
+      <section class="menu-panel" id="menu-panel">
         <div class="section-heading">
           <div>
             <span class="eyebrow">Cardapio</span>
@@ -72,7 +72,7 @@
         <div class="menu-grid" id="menu-grid"></div>
       </section>
 
-      <aside class="cart-panel">
+      <aside class="cart-panel" id="cart-panel">
         <div class="cart-panel__header">
           <div>
             <span class="eyebrow">Carrinho</span>
@@ -112,10 +112,24 @@
     </main>
   </div>
 
+
+  <div class="mobile-cart-bar" id="mobile-cart-bar">
+    <div class="mobile-cart-bar__info">
+      <span class="mobile-cart-bar__count" id="mobile-cart-count">0 itens</span>
+      <strong class="mobile-cart-bar__total" id="mobile-cart-total">R$ 6,00</strong>
+    </div>
+    <button class="mobile-cart-bar__button" id="mobile-cart-button" type="button">Escolher itens</button>
+  </div>
+
   <script src="menu-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
+
+
+
+
+
 
 
 

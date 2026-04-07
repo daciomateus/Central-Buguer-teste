@@ -16,6 +16,8 @@ const addressEl = document.querySelector('#customer-address');
 const changeField = document.querySelector('#change-field');
 const changeValueEl = document.querySelector('#change-value');
 const checkoutMessage = document.querySelector('#checkout-message');
+const checkoutMobileTotal = document.querySelector('#checkout-mobile-total');
+const checkoutMobileSubmit = document.querySelector('#checkout-mobile-submit');
 
 let currentCart = [];
 let currentSubtotal = 0;
@@ -89,6 +91,7 @@ function renderCheckout() {
     checkoutCount.textContent = '0 itens';
     subtotalEl.textContent = formatPrice(0);
     totalEl.textContent = formatPrice(currentDeliveryFee);
+    if (checkoutMobileTotal) checkoutMobileTotal.textContent = formatPrice(currentDeliveryFee);
     currentSubtotal = 0;
     currentTotal = currentDeliveryFee;
     return;
@@ -124,6 +127,7 @@ function renderCheckout() {
   checkoutCount.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`;
   subtotalEl.textContent = formatPrice(currentSubtotal);
   totalEl.textContent = formatPrice(currentTotal);
+  if (checkoutMobileTotal) checkoutMobileTotal.textContent = formatPrice(currentTotal);
 }
 
 function buildWhatsappMessage({ name, phone, address, payment, change, notes, serviceType }) {
@@ -186,8 +190,18 @@ checkoutForm.addEventListener('submit', (event) => {
 });
 
 paymentMethodEl.addEventListener('change', toggleChangeField);
+
+if (checkoutMobileSubmit) {
+  checkoutMobileSubmit.addEventListener('click', () => {
+    checkoutForm.requestSubmit();
+  });
+}
 serviceTypeInputs.forEach((input) => input.addEventListener('change', updateServiceTypeUI));
 
 renderCheckout();
 toggleChangeField();
 updateServiceTypeUI();
+
+
+
+

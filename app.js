@@ -6,6 +6,8 @@ let currentCategory = 'hamburguer';
 const cart = loadCart();
 
 const categoryTabs = document.querySelector('#category-tabs');
+const menuPanel = document.querySelector('#menu-panel');
+const cartPanel = document.querySelector('#cart-panel');
 const menuGrid = document.querySelector('#menu-grid');
 const cartItems = document.querySelector('#cart-items');
 const cartCount = document.querySelector('#cart-count');
@@ -13,6 +15,9 @@ const subtotalEl = document.querySelector('#subtotal');
 const totalEl = document.querySelector('#total');
 const deliveryEl = document.querySelector('#delivery');
 const checkoutButton = document.querySelector('#checkout-button');
+const mobileCartCount = document.querySelector('#mobile-cart-count');
+const mobileCartTotal = document.querySelector('#mobile-cart-total');
+const mobileCartButton = document.querySelector('#mobile-cart-button');
 
 deliveryEl.textContent = formatPrice(deliveryFee);
 
@@ -72,6 +77,11 @@ function renderMenu() {
     .join('');
 }
 
+function scrollToSection(element) {
+  if (!element) return;
+  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 function renderCart() {
   if (!cart.length) {
     cartItems.innerHTML = `
@@ -116,6 +126,13 @@ function renderCart() {
   cartCount.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`;
   subtotalEl.textContent = formatPrice(subtotal);
   totalEl.textContent = formatPrice(total);
+
+  if (mobileCartCount && mobileCartTotal && mobileCartButton) {
+    mobileCartCount.textContent = cartCount.textContent;
+    mobileCartTotal.textContent = formatPrice(total);
+    mobileCartButton.textContent = itemCount ? 'Ver carrinho' : 'Escolher itens';
+  }
+
   saveCart();
 }
 
@@ -211,6 +228,20 @@ cartItems.addEventListener('click', (event) => {
 
 checkoutButton.addEventListener('click', goToCheckout);
 
+if (mobileCartButton) {
+  mobileCartButton.addEventListener('click', () => {
+    if (!cart.length) {
+      scrollToSection(menuPanel);
+      return;
+    }
+
+    scrollToSection(cartPanel);
+  });
+}
+
 renderCategories();
 renderMenu();
 renderCart();
+
+
+
