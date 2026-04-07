@@ -1345,3 +1345,144 @@ select:focus {
     box-shadow: none;
   }
 }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+label {
+  touch-action: manipulation;
+}
+
+.hero,
+.menu-panel,
+.cart-panel,
+.checkout-main,
+.product-card,
+.cart-item,
+.choice-card,
+.mobile-cart-bar,
+.checkout-mobile-bar {
+  animation: riseIn 0.38s ease;
+}
+
+.product-card,
+.category-tab,
+.add-button,
+.checkout-button,
+.secondary-button,
+.choice-card,
+.cart-item,
+.mobile-cart-bar,
+.checkout-mobile-bar {
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+
+.product-card:hover,
+.choice-card:hover,
+.cart-item:hover {
+  transform: translateY(-2px);
+}
+
+.add-button:active,
+.checkout-button:active,
+.secondary-button:active,
+.mobile-cart-bar__button:active,
+.checkout-mobile-bar__button:active,
+.category-tab:active {
+  transform: scale(0.98);
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-width: 320px;
+  }
+
+  .page-shell,
+  .hero,
+  .layout,
+  .checkout-layout,
+  .admin-layout,
+  .menu-panel,
+  .cart-panel,
+  .checkout-main,
+  .product-card,
+  .mobile-cart-bar,
+  .checkout-mobile-bar {
+    max-width: 100%;
+  }
+
+  .brand-badge__meta,
+  .hero__copy,
+  .hero__copy p,
+  .section-heading,
+  .section-heading > div,
+  .section-heading p,
+  .product-card__top,
+  .cart-item__info,
+  .form-field,
+  .cart-flow-note,
+  .whatsapp-note {
+    min-width: 0;
+  }
+
+  .hero__copy h1 {
+    font-size: clamp(2.1rem, 11vw, 3.1rem);
+    line-height: 0.98;
+  }
+
+  .hero__copy p,
+  .section-heading p,
+  .product-card__top p,
+  .cart-flow-note p,
+  .whatsapp-note p,
+  .form-field span,
+  .cart-item__title p {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .mobile-cart-bar,
+  .checkout-mobile-bar {
+    width: auto;
+  }
+}
