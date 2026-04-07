@@ -21,7 +21,7 @@ const mobileCartButton = document.querySelector('#mobile-cart-button');
 const mobileCartToast = document.querySelector('#mobile-cart-toast');
 let mobileToastTimeout;
 
-deliveryEl.textContent = formatPrice(deliveryFee);
+deliveryEl.textContent = 'A calcular';
 
 function formatPrice(value) {
   return value.toLocaleString('pt-BR', {
@@ -134,7 +134,7 @@ function renderCart() {
 
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
   const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  const total = subtotal + deliveryFee;
+  const total = subtotal;
 
   cartCount.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'itens'}`;
   subtotalEl.textContent = formatPrice(subtotal);
@@ -255,6 +255,7 @@ if (mobileCartButton) {
 renderCategories();
 renderMenu();
 renderCart();
+
 
 
 
